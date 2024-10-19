@@ -22,10 +22,21 @@ void next(celula **prioridade, celula **tempo, int tamanho);
 void next(celula **prioridade, celula **tempo, int tamanho);
 void print(celula **prioridade, celula **tempo, int tamanho);
 
+void print(celula **prioridade, celula **tempo, int tamanho){
+    char flag[3];
+    
+    scanf("%s", flag);
+
+    if(strcmp(flag, "-p")){
+        
+    }
+}
+
+
 
 
 int main(void){
-    char *comando[7];
+    char comando[7];
     celula **prioridade=(celula**)malloc(sizeof(celula*)*1);
     celula **tempo=(celula**)malloc(sizeof(celula*)*1);
     int tamanho=0;
@@ -39,6 +50,7 @@ int main(void){
         }else
         if(strcmp(comando, "add")==0){
             add(prioridade, tempo, tamanho);
+            tamanho++;
         }else
         if(strcmp(comando, "exec")==0){
             exec(prioridade, tempo, tamanho);
