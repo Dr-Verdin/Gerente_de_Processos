@@ -16,6 +16,14 @@ typedef struct{
     char descricao[MAX];
 }celula;
 
+void add(celula **prioridade, celula **tempo, int tamanho);
+void exec(celula **prioridade, celula **tempo, int tamanho);
+void next(celula **prioridade, celula **tempo, int tamanho);
+void next(celula **prioridade, celula **tempo, int tamanho);
+void print(celula **prioridade, celula **tempo, int tamanho);
+
+
+
 int main(void){
     char *comando[7];
     celula **prioridade=(celula**)malloc(sizeof(celula*)*1);
@@ -30,19 +38,19 @@ int main(void){
             break;
         }else
         if(strcmp(comando, "add")==0){
-            add();
+            add(prioridade, tempo, tamanho);
         }else
         if(strcmp(comando, "exec")==0){
-            exec();
+            exec(prioridade, tempo, tamanho);
         }else
         if(strcmp(comando, "next")==0){
-            next();
+            next(prioridade, tempo, tamanho);
         }else
         if(strcmp(comando, "chance")==0){
-            change();
+            next(prioridade, tempo, tamanho);
         }
         if(strcmp(comando, "print")==0){
-            print();
+            print(prioridade, tempo, tamanho);
         }
     }
 }
