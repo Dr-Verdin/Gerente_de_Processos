@@ -19,8 +19,9 @@ typedef struct{
 }celula;
 
 //Cabeçalho das funções utilizadas no código.
-void quick_sort_prior(celula **prioridade, int tamanho);
-void quick_sort_tempo(celula **prioridade, int tamanho);
+void particiona(celula **lista, int inicio, int fim, int *i, int *j);
+void quick_sort_prior(celula **prioridade, int inicio, int fim);
+void quick_sort_tempo(celula **prioridade, int inicio, int fim);
 void add(celula **prioridade, celula **tempo, int tamanho); //x
 void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
 void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
@@ -28,34 +29,71 @@ void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
 void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);//x
 void apagar(celula ***lista, int tamanho); //x
 
+void particiona(celula **lista, int inicio, int fim, int *i, int *j){
+    int pivo = lista[(inicio+fim)/2]->prior;
+    *i= inicio;
+    *j= fim;
+
+    do{
+        while(lista[i]->prior<pivo){
+            (*i)++;
+        }
+
+        while(lista[j]->prior>pivo){
+            (*j)--;
+        }
+
+        if(*i<*j){
+            celula *temp= lista[i];
+            lista[i]=lista[j];
+            lista[j]=temp;
+        }
+
+    }while(*i<*j);
+
+}
+
+void quick_sort_prior(celula **prioridade, int inicio, int fim){
+    int i, j;
+    
+        particao(prioridade, inicio, fim, &i, &j);
+
+        if(inicio<j-1){
+        quick_sort_prior(prioridade, inicio, j-1);
+        }
+        if(i+1<fim){
+        quick_sort_prior(prioridade, i+1, fim);
+        }
+}
+
 void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     if(!*ordenada){
-            quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
-            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            quick_sort_prior(prioridade, 0, tamanho-1);// Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
             *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
 void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     if(!*ordenada){
-            quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
-            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            quick_sort_prior(prioridade, 0, tamanho-1);// Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
             *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
 void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     if(!*ordenada){
-            quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
-            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            quick_sort_prior(prioridade, 0, tamanho-1);// Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
             *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
 void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     if(!*ordenada){
-            quick_sort_prior(prioridade, tamanho); // Função que ordena a lista "prioridade".
-            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            quick_sort_prior(prioridade, 0, tamanho-1); // Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
             *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 
