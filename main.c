@@ -22,41 +22,41 @@ typedef struct{
 void quick_sort_prior(celula **prioridade, int tamanho);
 void quick_sort_tempo(celula **prioridade, int tamanho);
 void add(celula **prioridade, celula **tempo, int tamanho); //x
-void exec(celula **prioridade, celula **tempo, int tamanho, int *ordenada);
-void next(celula **prioridade, celula **tempo, int tamanho, int *ordenada);
-void chance(celula **prioridade, celula **tempo, int tamanho, int *ordenada); 
-void print(celula **prioridade, celula **tempo, int tamanho, int *ordenada);//x
+void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
+void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
+void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada); 
+void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);//x
 void apagar(celula ***lista, int tamanho); //x
 
-void exec(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
-    if(*ordenada==0){
+void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
+    if(!*ordenada){
             quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
             quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
-            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
+            *ordenada=true;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
-void next(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
-    if(*ordenada==0){
+void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
+    if(!*ordenada){
             quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
             quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
-            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
+            *ordenada=true;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
-void chance(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
-    if(*ordenada==0){
+void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
+    if(!*ordenada){
             quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
             quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
-            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
+            *ordenada=true;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
-void print(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
-    if(*ordenada==0){
+void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
+    if(!*ordenada){
             quick_sort_prior(prioridade, tamanho); // Função que ordena a lista "prioridade".
             quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
-            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
+            *ordenada=true;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 
     char flag[3];
@@ -107,7 +107,7 @@ int main(void){
     celula **prioridade=(celula**)malloc(sizeof(celula*)*MAX); // Vetor que guarda os processos ordenados em relação a prioridade. 
     celula **tempo=(celula**)malloc(sizeof(celula*)*MAX); // Vetor que os processos ordenados em relação ao tempo.
     int tamanho=0; // Tamanho dos vetores.
-    int ordenada; // Variável para saber se os vetores estão ordenados.
+    bool ordenada; // Variável para saber se os vetores estão ordenados.
 
     if(tempo=="NULL"|| prioridade=="NULL"){
         printf("Erro na alocação da memória dos vetores"); // Printa isso caso os vetores não tenham conseguido ser alocados. 
@@ -126,7 +126,7 @@ int main(void){
         if(strcmp(comando, "add")==0){
             add(prioridade, tempo, tamanho);
             tamanho++; // incrementa o tamanho.
-            ordenada=0; // inicializa como 0 para dizer que as listas ainda não estão ordenadas.
+            ordenada=false; // inicializa como 0 para dizer que as listas ainda não estão ordenadas.
         }else
         if(strcmp(comando, "exec")==0){
             exec(prioridade, tempo, tamanho, &ordenada);
