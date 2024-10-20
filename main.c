@@ -17,12 +17,13 @@ typedef struct{
     char descricao[MAX_DESCR];
 }celula;
 
-void leitura_horario();
+
 void add(celula **prioridade, celula **tempo, int tamanho);
 void exec(celula **prioridade, celula **tempo, int tamanho);
 void next(celula **prioridade, celula **tempo, int tamanho);
 void chance(celula **prioridade, celula **tempo, int tamanho);
 void print(celula **prioridade, celula **tempo, int tamanho);
+
 
 void print(celula **prioridade, celula **tempo, int tamanho){
     char flag[3];
@@ -51,7 +52,7 @@ void add(celula **prioridade, celula **tempo, int tamanho){
     scanf("%d:%d:%d", aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);
     scanf("%s", aux->descricao);
 
-    
+
 
 }
 
