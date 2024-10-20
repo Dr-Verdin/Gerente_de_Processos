@@ -18,6 +18,7 @@ typedef struct{
     char descricao[MAX_DESCR];
 }celula;
 
+//Cabeçalho das funções utilizadas no código.
 void quick_sort_prior(celula **prioridade, int tamanho);
 void quick_sort_tempo(celula **prioridade, int tamanho);
 void add(celula **prioridade, celula **tempo, int tamanho); //x
@@ -29,72 +30,73 @@ void apagar(celula ***lista, int tamanho); //x
 
 void exec(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
     if(*ordenada==0){
-            quick_sort_prior(prioridade, tamanho);
-            quick_sort_tempo(tempo, tamanho);
-            *ordenada=1;
+            quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
 void next(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
     if(*ordenada==0){
-            quick_sort_prior(prioridade, tamanho);
-            quick_sort_tempo(tempo, tamanho);
-            *ordenada=1;
+            quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
 void chance(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
     if(*ordenada==0){
-            quick_sort_prior(prioridade, tamanho);
-            quick_sort_tempo(tempo, tamanho);
-            *ordenada=1;
+            quick_sort_prior(prioridade, tamanho);// Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 }
 
 void print(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
     if(*ordenada==0){
-            quick_sort_prior(prioridade, tamanho);
-            quick_sort_tempo(tempo, tamanho);
-            *ordenada=1;
+            quick_sort_prior(prioridade, tamanho); // Função que ordena a lista "prioridade".
+            quick_sort_tempo(tempo, tamanho);// Função que ordena a lista "tempo".
+            *ordenada=1;// Atribui o valor 1 a variável ordenada que está na função main para indicar que os vetores estão ordenados.
     } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
 
     char flag[3];
     
-    scanf("%s", flag);
+    scanf("%s", flag); // leitura da flag para saber se printa toda a lista "prioridade" ou "tempo".
 
     if(strcmp(flag, "-p")){
         for(int i=tamanho-1; i>=0; i--){
             celula *aux= prioridade[i];
-            printf("%d %d:%d:%d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);
-            printf("%s", aux->descricao);
-        }
+            printf("%d %d:%d:%d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
+            printf("%s\n", aux->descricao);// Printa a descrição da celula atual
+        }// Printa todas as celulas que estão guardadas na lista "prioridade" em ordem decrescente.
     }else
     for(int i=0; i<tamanho; i++){
         celula *aux = tempo[i];
-        printf("%d %d:%d:%d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);
-        printf("%s", aux->descricao);
+        printf("%d %d:%d:%d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
+        printf("%s\n", aux->descricao); // Printa a descrição da celula atual
 
-    }
+    }// Printa todas as celulas que estão guardadas na lista "tempo" crescente.
 }
 
 void add(celula **prioridade, celula **tempo, int tamanho){
-    celula *aux=(celula*)malloc(sizeof(celula));
+    celula *aux=(celula*)malloc(sizeof(celula)); // Aloca uma celula na heap.
 
-    scanf("%d", aux->prior);
-    scanf("%d:%d:%d", aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);
-    scanf("%s", aux->descricao);
+    scanf("%d", aux->prior); // Le a prioridade e guarda no conteudo da variavel "aux".
+    scanf("%d:%d:%d", aux->chegada.hh, aux->chegada.mm, aux->chegada.ss); // Le o horário e guarda no conteudo da variável "aux".
+    scanf("%s", aux->descricao);// Le a descrição e guarda no conteudo da variável "aux" também.
 
-    prioridade[tamanho]=aux;
-    tempo[tamanho]=aux;
+    prioridade[tamanho]=aux;// Guarda o endereço do ponteiro "aux" na lista "prioridade".
+    tempo[tamanho]=aux;// Guarda o endereço do ponteiro "aux" na lista "tempo".
 }
 
 void apagar(celula ***lista, int tamanho){
     if(lista!=NULL){
         for(int i=0; i<tamanho; i++){
-            free((*lista)[i]);
-            (*lista)[i]=NULL;
+            free((*lista)[i]);// Apaga cada uma das celulas alocadas
+            (*lista)[i]=NULL;// Atribui o valor NULL para os ponteiros que apontavam para cada uma das celulas alocadas.
         }
-        (*lista)=NULL;
+        free(*lista);// Libera o vetor de ponteiros que o conteudo da variável lista aponta. 
+        (*lista)=NULL; // Atribui o valor NULL para o conteudo da variável lista.
     }
 }
 
