@@ -63,7 +63,7 @@ void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     
     scanf("%s", flag); // leitura da flag para saber se printa toda a lista "prioridade" ou "tempo".
 
-    if(strcmp(flag, "-p")){
+    if(strcmp(flag, "-p")==0){
         for(int i=tamanho-1; i>=0; i--){
             celula *aux= prioridade[i];
             printf("%d %d:%d:%d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
