@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_DESCR 51
 #define MAX 100
@@ -17,15 +18,46 @@ typedef struct{
     char descricao[MAX_DESCR];
 }celula;
 
+void quick_sort_prior(celula **prioridade, int tamanho);
+void quick_sort_tempo(celula **prioridade, int tamanho);
+void add(celula **prioridade, celula **tempo, int tamanho); //x
+void exec(celula **prioridade, celula **tempo, int tamanho, int *ordenada);
+void next(celula **prioridade, celula **tempo, int tamanho, int *ordenada);
+void chance(celula **prioridade, celula **tempo, int tamanho, int *ordenada); 
+void print(celula **prioridade, celula **tempo, int tamanho, int *ordenada);//x
+void apagar(celula ***lista, int tamanho); //x
 
-void add(celula **prioridade, celula **tempo, int tamanho);
-void exec(celula **prioridade, celula **tempo, int tamanho);
-void next(celula **prioridade, celula **tempo, int tamanho);
-void chance(celula **prioridade, celula **tempo, int tamanho);
-void print(celula **prioridade, celula **tempo, int tamanho);
+void exec(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
+    if(*ordenada==0){
+            quick_sort_prior(prioridade, tamanho);
+            quick_sort_tempo(tempo, tamanho);
+            *ordenada=1;
+    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
+}
 
+void next(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
+    if(*ordenada==0){
+            quick_sort_prior(prioridade, tamanho);
+            quick_sort_tempo(tempo, tamanho);
+            *ordenada=1;
+    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
+}
 
-void print(celula **prioridade, celula **tempo, int tamanho){
+void chance(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
+    if(*ordenada==0){
+            quick_sort_prior(prioridade, tamanho);
+            quick_sort_tempo(tempo, tamanho);
+            *ordenada=1;
+    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
+}
+
+void print(celula **prioridade, celula **tempo, int tamanho, int *ordenada){
+    if(*ordenada==0){
+            quick_sort_prior(prioridade, tamanho);
+            quick_sort_tempo(tempo, tamanho);
+            *ordenada=1;
+    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
+
     char flag[3];
     
     scanf("%s", flag);
@@ -52,44 +84,61 @@ void add(celula **prioridade, celula **tempo, int tamanho){
     scanf("%d:%d:%d", aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);
     scanf("%s", aux->descricao);
 
-
-
+    prioridade[tamanho]=aux;
+    tempo[tamanho]=aux;
 }
 
+void apagar(celula ***lista, int tamanho){
+    if(lista!=NULL){
+        for(int i=0; i<tamanho; i++){
+            free((*lista)[i]);
+            (*lista)[i]=NULL;
+        }
+        (*lista)=NULL;
+    }
+}
 
 
 
 int main(void){
     char comando[7];
-    celula **prioridade=(celula**)malloc(sizeof(celula*)*MAX);
-    celula **tempo=(celula**)malloc(sizeof(celula*)*MAX);
-    int tamanho=0;
+    celula **prioridade=(celula**)malloc(sizeof(celula*)*MAX); // Vetor que guarda os processos ordenados em relação a prioridade. 
+    celula **tempo=(celula**)malloc(sizeof(celula*)*MAX); // Vetor que os processos ordenados em relação ao tempo.
+    int tamanho=0; // Tamanho dos vetores.
+    int ordenada; // Variável para saber se os vetores estão ordenados.
 
-    if(tempo="NULL"){
-        
+    if(tempo=="NULL"|| prioridade=="NULL"){
+        printf("Erro na alocação da memória dos vetores"); // Printa isso caso os vetores não tenham conseguido ser alocados. 
+        return(1); // Esse return indica que o programa terminou por conta de uma falha que, nesse caso, é uma falha de alocação.
     }
 
     while(1){
-        scanf("%s", comando);
+        scanf("%s", comando); // Leitura do comando.
 
         if(strcmp(comando, "quit")==0){
+            apagar(&prioridade, tamanho); // Apaga todos os processos, apaga o vetor de ponteiros que a variável "prioridade" aponta e atribui o valor NULL para ela.
+            free(tempo); // Libera o vetor de ponteiros que a variável "tempo" aponta.
+            tempo=NULL; // Atribui o valor NULL para a variável "tempo".
             break;
         }else
         if(strcmp(comando, "add")==0){
             add(prioridade, tempo, tamanho);
-            tamanho++;
+            tamanho++; // incrementa o tamanho.
+            ordenada=0; // inicializa como 0 para dizer que as listas ainda não estão ordenadas.
         }else
         if(strcmp(comando, "exec")==0){
-            exec(prioridade, tempo, tamanho);
+            exec(prioridade, tempo, tamanho, &ordenada);
         }else
         if(strcmp(comando, "next")==0){
-            next(prioridade, tempo, tamanho);
+            next(prioridade, tempo, tamanho, &ordenada);
         }else
         if(strcmp(comando, "chance")==0){
-            next(prioridade, tempo, tamanho);
+            chance(prioridade, tempo, tamanho, &ordenada);
         }
         if(strcmp(comando, "print")==0){
-            print(prioridade, tempo, tamanho);
-        }
+            print(prioridade, tempo, tamanho, &ordenada);
+        }// 
     }
+
+return(0);
 }
