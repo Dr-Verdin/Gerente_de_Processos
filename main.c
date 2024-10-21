@@ -20,6 +20,7 @@ typedef struct{
 
 //Cabeçalho das funções utilizadas no código.
 void particiona(celula **lista, int inicio, int fim, int *i, int *j);
+void particao_tempo(celula **lista, int inicio, int fim, int *i, int *j);
 void quick_sort_prior(celula **prioridade, int inicio, int fim);
 void quick_sort_tempo(celula **tempo, int inicio, int fim);
 void add(celula **prioridade, celula **tempo, int tamanho); //x
@@ -77,7 +78,7 @@ void particao_tempo(celula **lista, int inicio, int fim, int *i, int *j){
         (lista[*i]->chegada.hh==pivo.hh && lista[*i]->chegada.mm==pivo.mm && lista[*i]->chegada.ss<pivo.ss)){
             (*i)++;
         }
-        
+
         while(lista[*j]->chegada.hh>pivo.hh || (lista[*j]->chegada.hh==pivo.hh && lista[*j]->chegada.mm>pivo.mm ) || 
         (lista[*j]->chegada.hh==pivo.hh && lista[*j]->chegada.mm==pivo.mm && lista[*j]->chegada.ss>pivo.ss)){
             (*j)--;
