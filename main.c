@@ -21,7 +21,7 @@ typedef struct{
 //Cabeçalho das funções utilizadas no código.
 void particiona(celula **lista, int inicio, int fim, int *i, int *j);
 void quick_sort_prior(celula **prioridade, int inicio, int fim);
-void quick_sort_tempo(celula **prioridade, int inicio, int fim);
+void quick_sort_tempo(celula **tempo, int inicio, int fim);
 void add(celula **prioridade, celula **tempo, int tamanho); //x
 void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
 void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
@@ -35,18 +35,18 @@ void particiona(celula **lista, int inicio, int fim, int *i, int *j){
     *j= fim;
 
     do{
-        while(lista[i]->prior<pivo){
+        while(lista[*i]->prior<pivo){
             (*i)++;
         }
 
-        while(lista[j]->prior>pivo){
+        while(lista[*j]->prior>pivo){
             (*j)--;
         }
 
         if(*i<*j){
-            celula *temp= lista[i];
-            lista[i]=lista[j];
-            lista[j]=temp;
+            celula *temp= lista[*i];
+            lista[*i]=lista[*j];
+            lista[*j]=temp;
         }
 
     }while(*i<*j);
@@ -64,6 +64,45 @@ void quick_sort_prior(celula **prioridade, int inicio, int fim){
         if(i+1<fim){
         quick_sort_prior(prioridade, i+1, fim);
         }
+}
+
+void particao_tempo(celula **lista, int inicio, int fim, int *i, int *j){
+    horario pivo=lista[(inicio+fim)/2]->chegada;
+    *i=inicio;
+    *j=fim;
+    celula *temp;
+
+    do{
+        while(lista[*i]->chegada.hh<pivo.hh || (lista[*i]->chegada.hh==pivo.hh && lista[*i]->chegada.mm<pivo.mm ) || 
+        (lista[*i]->chegada.hh==pivo.hh && lista[*i]->chegada.mm==pivo.mm && lista[*i]->chegada.ss<pivo.ss)){
+            (*i)++;
+        }
+        
+        while(lista[*j]->chegada.hh>pivo.hh || (lista[*j]->chegada.hh==pivo.hh && lista[*j]->chegada.mm>pivo.mm ) || 
+        (lista[*j]->chegada.hh==pivo.hh && lista[*j]->chegada.mm==pivo.mm && lista[*j]->chegada.ss>pivo.ss)){
+            (*j)--;
+        }
+
+        if(*i<*j){
+            temp= lista[*i];
+            lista[*i]=lista[*j];
+            lista[*j]=temp;
+        }
+
+    }while(*i<*j);
+}
+
+void quick_sort_tempo(celula **tempo, int inicio, int fim){
+    int i, j;
+
+    particao_tempo(tempo, inicio, fim, &i, &j);
+
+    if(inicio<j-1){
+        quick_sort_tempo(tempo, inicio, j-1);
+    }
+    if(i+1<fim){
+        quick_sort_tempo(tempo, i+1, fim);
+    }
 }
 
 void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
