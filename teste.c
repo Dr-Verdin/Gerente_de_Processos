@@ -18,18 +18,6 @@ typedef struct{
     char descricao[MAX_DESCR];
 }celula;
 
-//Cabeçalho das funções utilizadas no código.
-void particiona(celula **lista, int inicio, int fim, int *i, int *j);//x
-void particao_tempo(celula **lista, int inicio, int fim, int *i, int *j);//x
-void quick_sort_prior(celula **prioridade, int inicio, int fim);//x
-void quick_sort_tempo(celula **tempo, int inicio, int fim);//x
-void add(celula **prioridade, celula **tempo, int tamanho); //x
-void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
-void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
-void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada); 
-void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);//x
-void apagar(celula ***lista, int tamanho); //x
-
 void particiona(celula **lista, int inicio, int fim, int *i, int *j){
     int pivo = lista[(inicio+fim)/2]->prior;
     *i= inicio;
@@ -106,30 +94,6 @@ void quick_sort_tempo(celula **tempo, int inicio, int fim){
     }
 }
 
-void exec(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
-    if(!*ordenada){
-            quick_sort_prior(prioridade, 0, tamanho-1);// Função que ordena a lista "prioridade".
-            quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
-            *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
-    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
-}
-
-void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
-    if(!*ordenada){
-            quick_sort_prior(prioridade, 0, tamanho-1);// Função que ordena a lista "prioridade".
-            quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
-            *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
-    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
-}
-
-void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
-    if(!*ordenada){
-            quick_sort_prior(prioridade, 0, tamanho-1);// Função que ordena a lista "prioridade".
-            quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
-            *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
-    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
-}
-
 void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     if(!*ordenada){
             quick_sort_prior(prioridade, 0, tamanho-1); // Função que ordena a lista "prioridade".
@@ -144,7 +108,7 @@ void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     if(strcmp(flag, "-p")==0){
         for(int i=tamanho-1; i>=0; i--){
             celula *aux= prioridade[i];
-            printf("%02d %02d:%02d:%02d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
+            printf("%d %d:%d:%d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
             printf("%s\n", aux->descricao);// Printa a descrição da celula atual
         }// Printa todas as celulas que estão guardadas na lista "prioridade" em ordem decrescente.
     }else
@@ -178,8 +142,6 @@ void apagar(celula ***lista, int tamanho){
     }
 }
 
-
-
 int main(void){
     char comando[7];
     celula **prioridade=(celula**)malloc(sizeof(celula*)*MAX); // Vetor que guarda os processos ordenados em relação a prioridade. 
@@ -195,7 +157,7 @@ int main(void){
     while(1){
         scanf("%s", comando); // Leitura do comando.
 
-        if(strcmp(comando, "quit")==0){
+       if(strcmp(comando, "quit")==0){
             apagar(&prioridade, tamanho); // Apaga todos os processos, apaga o vetor de ponteiros que a variável "prioridade" aponta e atribui o valor NULL para ela.
             free(tempo); // Libera o vetor de ponteiros que a variável "tempo" aponta.
             tempo=NULL; // Atribui o valor NULL para a variável "tempo".
@@ -206,19 +168,11 @@ int main(void){
             tamanho++; // incrementa o tamanho.
             ordenada=false; // inicializa como "false" para dizer que as listas ainda não estão ordenadas.
         }else
-        if(strcmp(comando, "exec")==0){
-            exec(prioridade, tempo, tamanho, &ordenada);
-        }else
-        if(strcmp(comando, "next")==0){
-            next(prioridade, tempo, tamanho, &ordenada);
-        }else
-        if(strcmp(comando, "chance")==0){
-            chance(prioridade, tempo, tamanho, &ordenada);
-        }
         if(strcmp(comando, "print")==0){
             print(prioridade, tempo, tamanho, &ordenada);
-        }// 
+        }
+
     }
 
-return(0);
+return 0;
 }
