@@ -139,7 +139,7 @@ void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
 
     char flag[3];
     
-    scanf("%s", flag); // leitura da flag para saber se printa toda a lista "prioridade" ou "tempo".
+    scanf(" %s", flag); // leitura da flag para saber se printa toda a lista "prioridade" ou "tempo".
 
     if(strcmp(flag, "-p")==0){
         for(int i=tamanho-1; i>=0; i--){
@@ -147,6 +147,8 @@ void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
             printf("%02d %02d:%02d:%02d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
             printf("%s\n", aux->descricao);// Printa a descrição da celula atual
         }// Printa todas as celulas que estão guardadas na lista "prioridade" em ordem decrescente.
+
+        printf("\n");
     }else
     for(int i=0; i<tamanho; i++){
         celula *aux = tempo[i];
@@ -154,14 +156,16 @@ void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
         printf("%s\n", aux->descricao); // Printa a descrição da celula atual
 
     }// Printa todas as celulas que estão guardadas na lista "tempo" crescente.
-}
+
+    printf("\n");
+}   
 
 void add(celula **prioridade, celula **tempo, int tamanho){
     celula *aux=(celula*)malloc(sizeof(celula)); // Aloca uma celula na heap.
 
     scanf("%d", &aux->prior); // Le a prioridade e guarda no conteudo da variavel "aux".
     scanf("%d:%d:%d", &aux->chegada.hh, &aux->chegada.mm, &aux->chegada.ss); // Le o horário e guarda no conteudo da variável "aux".
-    scanf("%s", aux->descricao);// Le a descrição e guarda no conteudo da variável "aux" também.
+    scanf(" %s", aux->descricao);// Le a descrição e guarda no conteudo da variável "aux" também.
 
     prioridade[tamanho]=aux;// Guarda o endereço do ponteiro "aux" na lista "prioridade".
     tempo[tamanho]=aux;// Guarda o endereço do ponteiro "aux" na lista "tempo".
@@ -193,7 +197,7 @@ int main(void){
     }
 
     while(1){
-        scanf("%s", comando); // Leitura do comando.
+        scanf(" %s", comando); // Leitura do comando.
 
         if(strcmp(comando, "quit")==0){
             apagar(&prioridade, tamanho); // Apaga todos os processos, apaga o vetor de ponteiros que a variável "prioridade" aponta e atribui o valor NULL para ela.
