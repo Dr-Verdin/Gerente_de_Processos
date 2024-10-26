@@ -29,7 +29,7 @@ void particiona(celula **lista, int inicio, int fim, int *i, int *j, const char*
 void quick_sort_prior(celula **prioridade, int inicio, int fim);
 void quick_sort_tempo(celula **tempo, int inicio, int fim);
 void add(celula **prioridade, celula **tempo, int tamanho);
-void exec(celula ***prioridade, celula ***tempo, int *tamanho, bool *ordenada); //x (eu)
+void exec(celula ***prioridade, celula ***tempo, int *tamanho, bool *ordenada);
 void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada); 
 void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada); //x (bru)
 void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
