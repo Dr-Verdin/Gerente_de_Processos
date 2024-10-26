@@ -1,7 +1,7 @@
 /*
-Nomes:  Camila - 15697249
-        Matheus - 15
-        Bruna  - 15
+Nomes:  Camila Piscioneri Magalhães - 15697249
+        Bruna Izabel da Silva Pereira - 15635441
+        Matheus Guilherme Ferreira Mendonça Learte - 15522362
 */
 
 #include <stdio.h>
