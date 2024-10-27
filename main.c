@@ -175,16 +175,12 @@ void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     scanf("%s", flag); 
 
     if(strcmp(flag, "-p")==0){ // Celula com maior prioridade.
-        printf("\n");
-
         celula *aux = prioridade[tamanho-1];
         printf("%02d %02d:%02d:%02d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
         printf("%s\n", aux->descricao); // Printa a descrição da celula atual
 
         printf("\n");
     }else if (strcmp(flag, "-t")==0){ // Celula com menor tempo.
-        printf("\n");
-
         celula *aux = tempo[0];
         printf("%02d %02d:%02d:%02d ", aux->prior, aux->chegada.hh, aux->chegada.mm, aux->chegada.ss);// Printa a prioridade e a data da celula que "aux" aponta.
         printf("%s\n", aux->descricao); // Printa a descrição da celula atual
@@ -287,7 +283,6 @@ void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     scanf(" %s", flag); // leitura da flag para saber se printa toda a lista "prioridade" ou "tempo".
 
     if(strcmp(flag, "-p")==0){
-        printf("\n");
 
         for(int i = tamanho-1; i >= 0; i--){
             celula *aux= prioridade[i];
@@ -297,7 +292,6 @@ void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
 
         printf("\n");
     } else if (strcmp(flag, "-t") == 0) {
-        printf("\n");
 
         for(int i=0; i < tamanho; i++){
             celula *aux = tempo[i];
