@@ -1,6 +1,6 @@
 /*
-Nomes:  Camila Piscioneri Magalhães - 15697249
-        Bruna Izabel da Silva Pereira - 15635441
+Nomes:  Bruna Izabel da Silva Pereira - 15635441
+        Camila Piscioneri Magalhães - 15697249
         Matheus Guilherme Ferreira Mendonça Learte - 15522362
 */
 
@@ -28,10 +28,12 @@ typedef struct{
 void particiona(celula **lista, int inicio, int fim, int *i, int *j, const char* tipo_chamada);
 void quick_sort_prior(celula **prioridade, int inicio, int fim);
 void quick_sort_tempo(celula **tempo, int inicio, int fim);
+int busca_prioridade(celula **prioridade, int tamanho, int chave);
+int busca_tempo(celula **t, celula *chave);
 void add(celula **prioridade, celula **tempo, int tamanho);
 void exec(celula ***prioridade, celula ***tempo, int *tamanho, bool *ordenada);
 void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada); 
-void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada); //x (bru)
+void change(celula **prioridade, celula **tempo, int tamanho, bool *ordenada); 
 void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada);
 void apagar(celula ***lista, int tamanho);
 
@@ -194,13 +196,84 @@ void next(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     }
 }
 
-void chance(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
-    if(!*ordenada){
-        quick_sort_prior(prioridade, 0, tamanho-1);// Função que ordena a lista "prioridade".
-        quick_sort_tempo(tempo, 0, tamanho-1);// Função que ordena a lista "tempo".
-        *ordenada=true;// Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
-    } // Testa se as listas estão ordenadas e caso não estejam ordenadas chama as funções para ordenar e indica qu estão ordenadas atribuindo o valor 1 para a variável "ordenada".
+int busca_prioridade(celula **prioridade, int tamanho, int chave){ //A busca da posição para alterar a prioridade é feita por meio da busca binária
+    int inf = 0, sup = tamanho - 1, meio; //variável inf que inicialmente começa em 0 que é a primeira posição do vetor prioridade
+    //variável sup que inicialmente é a última posição do vetor prioridade
+    //variável meio que é a posição meio do vetor prioridade
+
+    if(*prioridade != NULL){ //se verifica se a lista de prioridade não é nula
+        while(inf<=sup){ //enquanto as posições inferior e superior não forem iguais
+            meio = (inf + sup)/2; //meio = (inicio + fim)/2
+            if(chave == prioridade[meio]->prior){ //se a chave que estamos buscando, que é a prioridade procurada, for igual a prioridade na posição meio da lista, se retorna a posição meio
+                return meio;
+            } else if(chave< prioridade[meio]->prior){ //senão, se a chave for menor, então ela estã localizadana lista prioridade antes da posição meio
+                sup = meio - 1; //assim, precisa-se analisar somente o que está antes dessa posição, ou seja, final = meio - 1
+            } else { //senão, se a chave for maior, então ela está localizada na lista prioridade depois da posição meio 
+                inf = meio + 1; //assim, precisa-se analisar somente o que está depois dessa posição, ou seja, inicio = meio + 1
+            }
+        }
+    }
+    return -1; // se não for encontrada a posição se retorna -1
 }
+
+int busca_tempo(celula **t, celula *chave) { //para achar a posição para alterar o tempo se fez uma busca sequencial ordenada
+    int i=0; //se começa com o indíce i = 0, que é a posição inicial da lista tempo
+
+    if (*t != NULL){ //se verifiica se a lista de tempo não é nula
+       while(t[i]->chegada.hh<chave->chegada.hh || (t[i]->chegada.hh==chave->chegada.hh && t[i]->chegada.mm<chave->chegada.mm ) || 
+            (t[i]->chegada.hh==chave->chegada.hh && t[i]->chegada.mm==chave->chegada.mm && t[i]->chegada.ss<chave->chegada.ss)){
+                i++;
+        } //enquanto o tempo da lista for menor que o da chave, que é o tempo que se está procurando, o indice i é adicionado
+        if(t[i]->chegada.hh==chave->chegada.hh && t[i]->chegada.mm==chave->chegada.mm && t[i]->chegada.ss==chave->chegada.ss){
+            return i; //se posição no tempo que i parou de ser adicionado for igual a chave, então se retorna i
+        } else {
+            return -1; //se não for, se retorna -1
+        }
+    } else {
+        return -1; //se a lista tempo for igual a nulo se retorna -1
+    }
+}
+
+void change(celula **prioridade, celula **tempo, int tamanho, bool *ordenada) {
+    char flag[3];
+    scanf(" %s", flag);
+
+    if (strcmp("-p", flag) == 0) {
+        int antes, depois;
+        scanf("%d|%d", &antes, &depois); //se recebe o tempo que vai ser mudado e o novo tempo
+        if (!*ordenada) {
+            quick_sort_prior(prioridade, 0, tamanho - 1); //função que ordena lista de prioridade
+            *ordenada = true; // Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
+        }
+        int pos_prior = busca_prioridade(prioridade, tamanho, antes); //variável irá receber a posição da lista do que irá ser alterado
+        if (pos_prior != -1) { //se a posição for válida, então a mudança acontece
+            prioridade[pos_prior]->prior = depois;
+            *ordenada = false; //variável "ordenada" retorna a seu estado original, pois agora não se sabe se a lista de prioridade continua ordenada
+        } else {
+            printf("prioridade %d não encontrada.\n", antes);
+        }
+    } else if(strcmp("-t", flag) == 0){
+        if(!*ordenada){
+            quick_sort_tempo(tempo, 0, tamanho-1); //função que ordena lista de tempo
+            *ordenada = true; // Atribui o valor "true" a variável ordenada que está na função main para indicar que os vetores estão ordenados.
+        }
+            celula *tempo_antigo = (celula*)malloc(sizeof(celula));
+            celula *novo_tempo = (celula*)malloc(sizeof(celula));
+            scanf("%d:%d:%d|%d:%d:%d", &tempo_antigo->chegada.hh,&tempo_antigo->chegada.mm,&tempo_antigo->chegada.ss,
+            &novo_tempo->chegada.hh,&novo_tempo->chegada.mm,&novo_tempo->chegada.ss); // se recebe o tempo que se quer mudar e o novo tempo
+            int pos_tempo = busca_tempo(tempo, tempo_antigo); //variável irá receber a posição da lista do que irá ser alterado
+
+            if(pos_tempo != -1){ //se a posição for válida, então a mudança acontece
+                tempo[pos_tempo]->chegada = novo_tempo->chegada;
+                *ordenada = false; //variável "ordenada" retorna a seu estado original, pois agora não se sabe se a lista de prioridade continua ordenada
+                free(tempo_antigo); //libera memória alocada o ponteiro que recebe o tempo que se queria mudar
+                free(novo_tempo);  //libera memória alocada o ponteiro que recebe o novo tempo
+            } else {
+                printf("tempo %d:%d:%d não encontrado", tempo_antigo->chegada.hh, tempo_antigo->chegada.mm, tempo_antigo->chegada.ss);
+            }
+        }
+    }
+    
 
 void print(celula **prioridade, celula **tempo, int tamanho, bool *ordenada){
     if(!*ordenada){
@@ -290,8 +363,8 @@ int main(void){
             exec(&prioridade, &tempo, &tamanho, &ordenada);
         } else if(strcmp(comando, "next") == 0){
             next(prioridade, tempo, tamanho, &ordenada);
-        } else if(strcmp(comando, "chance") == 0){
-            chance(prioridade, tempo, tamanho, &ordenada);
+        } else if(strcmp(comando, "change") == 0){
+            change(prioridade, tempo, tamanho, &ordenada);
         } else if(strcmp(comando, "print") == 0){
             print(prioridade, tempo, tamanho, &ordenada);
         }
